@@ -9,11 +9,21 @@
 import UIKit
 import MapKit
 
+class PhotoAnnotation: NSObject,MKAnnotation {
+    var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(0, 0)
+    var photo: UIImage!
+    
+    var title: String? {
+        return "\(coordinate.latitude)"
+    }
+}
+
 class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate , LocationsViewControllerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var camera: UIButton!
     var image: UIImage?
+    var sentImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +53,9 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     func locationsPicked(controller: LocationsViewController, latitude: NSNumber, longitude: NSNumber) {
         let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         let annotation = MKPointAnnotation()
-        annotation.title = "Photo"
+        annotation.title = coordinate.latitude.description
         annotation.coordinate = coordinate
+        
         mapView.addAnnotation(annotation)
         controller.navigationController?.popToRootViewController(animated: true)
         
@@ -64,6 +75,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
             let imageView = annotationView.leftCalloutAccessoryView as! UIImageView
             imageView.image = image ?? #imageLiteral(resourceName: "camera")
             
+            
         }
         else{
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuse)
@@ -72,7 +84,19 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
             let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
             imageView.image = image ?? #imageLiteral(resourceName: "camera")
         }
+        let view = annotation as? PhotoAnnotation
+        view?.photo = image
+        annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        
         return annotationView
+    }
+    
+    
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let image = view.annotation as! PhotoAnnotation
+        sentImage = image.photo
+        self.performSegue(withIdentifier: "fullImageSegue", sender: nil)
     }
     // MARK: - Navigation
 
@@ -83,6 +107,10 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         if segue.identifier == "tagSegue" {
             if let vc = segue.destination as? LocationsViewController {
                 vc.delegate = self
+            }
+        }else{
+            if let vc = segue.destination as? FullImageViewController {
+                vc.photo.image = sentImage
             }
         }
     }

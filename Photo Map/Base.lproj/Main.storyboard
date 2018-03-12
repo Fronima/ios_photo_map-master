@@ -69,9 +69,25 @@
                     <view key="view" contentMode="scaleToFill" id="IER-PT-2nq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YGp-wB-H1b">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="YGp-wB-H1b" firstAttribute="top" secondItem="FF8-mr-LhG" secondAttribute="bottom" id="8cK-Kn-hJh"/>
+                            <constraint firstAttribute="trailing" secondItem="YGp-wB-H1b" secondAttribute="trailing" id="Ns5-ub-DAD"/>
+                            <constraint firstItem="YGp-wB-H1b" firstAttribute="top" secondItem="FF8-mr-LhG" secondAttribute="bottom" id="OPk-Ca-PdL"/>
+                            <constraint firstItem="N8d-FM-OAP" firstAttribute="top" secondItem="YGp-wB-H1b" secondAttribute="bottom" id="bEA-aA-oFQ"/>
+                            <constraint firstItem="YGp-wB-H1b" firstAttribute="leading" secondItem="IER-PT-2nq" secondAttribute="leading" id="hxq-ay-ZVb"/>
+                            <constraint firstItem="N8d-FM-OAP" firstAttribute="top" secondItem="YGp-wB-H1b" secondAttribute="bottom" id="la3-23-16A"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HUo-VF-R6y"/>
+                    <connections>
+                        <outlet property="photo" destination="YGp-wB-H1b" id="KZG-x7-tbB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QRl-fe-rlf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
